@@ -1,24 +1,45 @@
-// fetch('https://cdk-kanap.herokuapp.com/api/products')
+// Connexion API
+async function fetchProducts() {
+    fetch('http://localhost:3000/api/products')
+        .then(response => response.json())
+        .then(data => showAllProducts(data))
+        .catch(error => {throw new Error(error)})
+}
 
-fetch('http://localhost:3000/api/products')
-	.then((response) => response.json())
-	.then((data) => {
 
-		// Affichage des produits contenu dans l'API
-		let showAllProduct = () => {
-			let items = document.getElementById('items')
+// Affichage des produits contenu dans l'API
+let showAllProducts = (data) => {
+    let items = document.getElementById('items')
 
-			for (let p in data) {
-				items.innerHTML += `
-					<a href="./product.html?id=${data[p]._id}">
-						<article>
-							<img src="${data[p].imageUrl}" alt="${data[p].altTxt}">
-							<h3 class="productName">${data[p].name}</h3>
-							<p class="productDescription">${data[p].description}</p>
-						</article>
-					</a>`
-			}
-		}
+    for (let product in data) {
 
-		showAllProduct()
-	})
+        // Création des éléments
+        let a = document.createElement('a')
+        let img = document.createElement('img')
+        let h3 = document.createElement('h3')
+        let p = document.createElement('p')
+        let article = document.createElement('article')
+
+        // Insertion des éléments enfants
+        a.appendChild(article)
+        article.appendChild(img)
+        article.appendChild(h3)
+        article.appendChild(p)
+        items.appendChild(a)
+
+
+        // Affectation des valeurs
+        a.href = "./product.html?id=" + data[product]._id
+        
+        img.src = data[product].imageUrl
+        img.alt = data[product].altTxt
+
+        h3.textContent = data[product].name
+        h3.className = "productName"
+
+        p.textContent = data[product].description
+        p.className = "productDescription"
+    }
+}
+
+fetchProducts()
