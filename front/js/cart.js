@@ -6,4 +6,13 @@ async function fetchProducts() {
         .catch(error => {throw new Error(error)})
 }
 
+
+// Récupérer le panier depuis localStorage
+let getBasket = function (){
+	let basket = localStorage.getItem("basket")
+    if(basket !== "undefined"){
+        return JSON.parse(basket)
+    }
+}
+
 fetchProducts()
