@@ -215,4 +215,98 @@ let saveBasket = function (basket){
 	localStorage.setItem("basket", JSON.stringify(basket))
 }
 
+
+
+///////////**************** Validation du formulumaire  **************////////////////
+
+// Fonction pour écouter le champs du formulaire
+let listenFormInput = function (){
+    let form = document.querySelector('.cart__order__form')
+    // Écouter la modification du prénom
+    form.firstName.addEventListener('change', function(){
+        validFirstName(this)
+    })
+    // Écouter la modification du nom
+    form.lastName.addEventListener('change', function(){
+        validLastName(this)
+    })
+    // Écouter la modification de l'adresse
+    form.address.addEventListener('change', function(){
+        validAddress(this)
+    })
+    // Écouter la modification de la ville
+    form.city.addEventListener('change', function(){
+        validCity(this)
+    })
+    // Écouter la modification de l'email
+    form.email.addEventListener('change', function(){
+        validEmail(this)
+    })
+}
+
+
+// Regex pour valider le firstName
+let validFirstName = function (inputFirstName){
+    let firstNameRegExp = new RegExp('[A-Za-zàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð]$')
+    let testFirstName = firstNameRegExp.test(inputFirstName.value)
+    let text = document.querySelector('#firstNameErrorMsg')
+    if(testFirstName == false){
+        text.textContent = 'Veuillez saisir un prénom valide'
+    }else{
+        text.textContent = ''
+        return true
+    }
+}
+
+// Regex pour valider le lastName
+let validLastName = function (inputLastName){
+    let lastNameRegExp = new RegExp('[A-Za-zàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð]$')
+    let testLastName = lastNameRegExp.test(inputLastName.value)
+    let text = document.querySelector('#lastNameErrorMsg')
+    if(testLastName == false){
+        text.textContent = 'Veuillez saisir un nom valide'
+    }else{
+        text.textContent = ''
+        return true
+    }
+}
+
+// Regex pour valider l'adresse
+let validAddress = function (inputAddress){
+    let addressRegExp = new RegExp('([0-9]*) ?([a-zA-Z,\. ]*) ?([0-9]{5})')
+    let testAddress = addressRegExp.test(inputAddress.value)
+    let text = document.querySelector('#addressErrorMsg')
+    if(testAddress == false){
+        text.textContent = 'Veuillez saisir une adresse valide'
+    }else{
+        text.textContent = ''
+        return true
+    }
+}
+
+// Regex pour valider la ville
+let validCity = function (inputCity){
+    let cityRegExp = new RegExp('[A-Za-zàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð]$')
+    let testCity = cityRegExp.test(inputCity.value)
+    let text = document.querySelector('#cityErrorMsg')
+    if(testCity == false){
+        text.textContent = 'Veuillez saisir une ville valide'
+    }else{
+        text.textContent = ''
+        return true
+    }
+}
+
+// Regex pour valider l'email
+let validEmail = function (inputEmail){
+    let emailRegExp = new RegExp('[a-z0-9]+@[a-z]+\.[a-z]{2,3}')
+    let testEmail = emailRegExp.test(inputEmail.value)
+    let text = document.querySelector('#emailErrorMsg')
+    if(testEmail == false){
+        text.textContent = 'Veuillez saisir un email valide'
+    }else{
+        text.textContent = ''
+        return true
+    }
+}
 fetchProducts()
