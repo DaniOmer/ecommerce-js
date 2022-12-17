@@ -147,4 +147,21 @@ let cartPrice = function (productFound, total){
 }
 
 
+// Mettre à jour la quantité d'un produit dans le DOM
+let updateProduct = function (updateId, updateColor, value){
+    let basket = getBasket()
+    let productToUpdate = basket.find(p => p._id == updateId  && p.color == updateColor)
+    if(productToUpdate != null && value >0 && value <= 100){
+        productToUpdate.qty = value
+    }
+    if(value == 0){
+        let index = basket.indexOf(productToUpdate)
+        if(index !== -1){
+        basket.splice(index, 1)
+        }
+    }
+    saveBasket(basket)
+    quantityCount()
+}
+
 fetchProducts()
