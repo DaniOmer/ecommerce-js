@@ -112,6 +112,8 @@ let injectHtmlCart = (data) => {
     }
 
     quantityCount()
+    setTotalQuantity(quantity)
+    cartPrice(productFound, total)
 }
 
 // Calculer la quantité des produits
@@ -123,5 +125,26 @@ let quantityCount = function (){
     }
     return totalQuantity
 }
+
+
+// Mettre à jour la quantité total
+let setTotalQuantity = function (quantity){
+    let basket = getBasket()
+    let totalToUpdate = quantityCount()
+    quantity.textContent = totalToUpdate
+}
+
+
+// Calculer le montant total du panier
+let cartPrice = function (productFound, total){
+    let basket = getBasket()
+    let totalPrice = 0
+    for(product of basket){
+        let productPrice = product.qty * productFound.price
+        totalPrice+= productPrice
+    }
+    total.textContent = totalPrice
+}
+
 
 fetchProducts()
