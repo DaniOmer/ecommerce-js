@@ -4,6 +4,8 @@ async function fetchProducts() {
         .then((response) => response.json())
         .then((data) => injectHtmlCart(data))
         .catch(error => {throw new Error(error)})
+    listenFormInput()
+    customerInformations()
 }
 
 
@@ -245,7 +247,7 @@ let listenFormInput = function (){
 }
 
 
-// Regex pour valider le firstName
+// RegExp pour valider le firstName
 let validFirstName = function (inputFirstName){
     let firstNameRegExp = new RegExp('[A-Za-zàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð]$')
     let testFirstName = firstNameRegExp.test(inputFirstName.value)
@@ -258,7 +260,7 @@ let validFirstName = function (inputFirstName){
     }
 }
 
-// Regex pour valider le lastName
+// RegExp pour valider le lastName
 let validLastName = function (inputLastName){
     let lastNameRegExp = new RegExp('[A-Za-zàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð]$')
     let testLastName = lastNameRegExp.test(inputLastName.value)
@@ -271,7 +273,7 @@ let validLastName = function (inputLastName){
     }
 }
 
-// Regex pour valider l'adresse
+// RegExp pour valider l'adresse
 let validAddress = function (inputAddress){
     let addressRegExp = new RegExp('([0-9]*) ?([a-zA-Z,\. ]*) ?([0-9]{5})')
     let testAddress = addressRegExp.test(inputAddress.value)
@@ -284,7 +286,7 @@ let validAddress = function (inputAddress){
     }
 }
 
-// Regex pour valider la ville
+// RegExp pour valider la ville
 let validCity = function (inputCity){
     let cityRegExp = new RegExp('[A-Za-zàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð]$')
     let testCity = cityRegExp.test(inputCity.value)
@@ -297,7 +299,7 @@ let validCity = function (inputCity){
     }
 }
 
-// Regex pour valider l'email
+// RegExp pour valider l'email
 let validEmail = function (inputEmail){
     let emailRegExp = new RegExp('[a-z0-9]+@[a-z]+\.[a-z]{2,3}')
     let testEmail = emailRegExp.test(inputEmail.value)
@@ -308,5 +310,38 @@ let validEmail = function (inputEmail){
         text.textContent = ''
         return true
     }
+}
+
+
+// Objet contenant les informations du client
+let customerInformations = function (){
+    let submitOrder = document.querySelector('#order')
+    submitOrder.addEventListener('click', function(e){
+        e.preventDefault()
+        let firstName = document.querySelector('#firstName')
+        let lastName = document.querySelector('#lastName')
+        let address = document.querySelector('#address')
+        let city = document.querySelector('#city')
+        let email = document.querySelector('#email')
+
+        // Vérification des données avec les Regexp
+        validFirstName(firstName)
+        validLastName(lastName)
+        validAddress(address)
+        validCity(city)
+        validEmail(email)
+
+        //Création de l'bjet à envoyer à l'API
+        contact = {
+            firstName: firstName.value,
+            lastName: lastName.value,
+            address: address.value,
+            city: city.value,
+            email: email.value
+        }
+        addContactToLocalStorage(contact)
+        updateContactFromLocalStorage(contact)
+        sendToApi(contact)   
+    })
 }
 fetchProducts()
