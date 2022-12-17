@@ -344,4 +344,17 @@ let customerInformations = function (){
         sendToApi(contact)   
     })
 }
+
+
+// Enregistrer les informations du client dans localStorage
+let addContactToLocalStorage = function(contact){
+    let arrayToSaveConctats = []
+    // Vérifions que toutes les valeurs sont saisis
+    if(contact.firstName == undefined || contact.lastName == undefined || contact.address == undefined || contact.city == undefined || contact.email == undefined){
+        return false
+    }else{
+        arrayToSaveConctats.push(contact)
+        localStorage.setItem('contact', JSON.stringify(arrayToSaveConctats))
+    }
+}
 fetchProducts()
