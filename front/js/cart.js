@@ -357,4 +357,52 @@ let addContactToLocalStorage = function(contact){
         localStorage.setItem('contact', JSON.stringify(arrayToSaveConctats))
     }
 }
+
+
+// Envoyer les informations du client et son panier vers l'API
+let sendToApi = function (contact){
+    let basket = getBasket()
+    let products = []
+
+    // Récupérer les id des produits contenus dans localStorage
+    for(let i = 0; i<basket.length; i++){
+        let productId = basket[i]._id
+        products.push(productId)
+    }
+
+    const objetToSend = {
+        contact,
+        products
+    }
+
+    if(contact.firstName != '' && contact.lastName != '' && contact.address != '' && contact.city != '' && contact.email != ''){
+        const promise = fetch('http://localhost:3000/api/products/order', {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'content-type': 'application/json'
+        },
+        body : JSON.stringify(objetToSend)
+    })
+    
+    // vérifier que la requête fonctionne
+    promise.then(async (response) => {
+        try {
+            const content = await response.json()
+
+            if (response.ok && basket) {
+                // Aller vers la page confirmation
+                window.location = `../html/confirmation.html?id=${content.orderId}`
+                localStorage.clear()
+            } else {
+                console.log(`Réponse du serveur : `, response.status)
+            }
+        } catch (e) {
+            console.log('Erreur qui vient du catch : ', e)
+        }
+    })
+    }
+}
+
+
 fetchProducts()
