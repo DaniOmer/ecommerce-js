@@ -115,6 +115,7 @@ let injectHtmlCart = (data) => {
     setTotalQuantity(quantity)
     cartPrice(productFound, total)
     listenModify(input, quantity, productFound, total)
+    listenRemove(quantity, productFound, total)
 }
 
 // Calculer la quantité des produits
@@ -148,7 +149,7 @@ let cartPrice = function (productFound, total){
 }
 
 
-// Mettre à jour la quantité d'un produit dans le DOM
+// Modifier la quantité d'un produit
 let updateProduct = function (updateId, updateColor, value){
     let basket = getBasket()
     let productToUpdate = basket.find(p => p._id == updateId  && p.color == updateColor)
@@ -180,7 +181,7 @@ let removeProduct = function (id, color){
 }
 
 
-// Écouter le input pour modifier la quantité
+// Mettre à jour la quantité d'un produit dans le DOM
 let listenModify = function(input, quantity, productFound, total){
     let basket = getBasket()
     input.addEventListener('change', function(){
@@ -190,6 +191,28 @@ let listenModify = function(input, quantity, productFound, total){
         setTotalQuantity(quantity)
         cartPrice(productFound, total)
     })
+}
+
+
+// Supprimer un produit du DOM
+let listenRemove = function(quantity, productFound, total){
+    let basket = getBasket()
+    let button = document.querySelectorAll('.deleteItem')
+    button.forEach((deleteButton) => {
+        deleteButton.addEventListener('click', function(){
+            let removeId = this.closest('.cart__item').dataset.id
+            let removeColor = this.closest('.cart__item').dataset.color
+            removeProduct(removeId, removeColor)
+            setTotalQuantity(quantity)
+            cartPrice(productFound, total)
+        })
+    })
+}
+
+
+// Sauvegarder le panier mis à jour dans localStorage
+let saveBasket = function (basket){
+	localStorage.setItem("basket", JSON.stringify(basket))
 }
 
 fetchProducts()
