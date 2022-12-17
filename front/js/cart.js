@@ -164,4 +164,18 @@ let updateProduct = function (updateId, updateColor, value){
     quantityCount()
 }
 
+
+// Supprimer un article du panier
+let removeProduct = function (id, color){
+    let basket = getBasket()
+    prodcutToRemove = basket.find(p => p._id == id && p.color == color)
+    let index = basket.indexOf(prodcutToRemove)
+    if(index !== -1){
+        basket.splice(index, 1)
+    }
+    const element = document.getElementById(id+color);
+    element.remove();
+    saveBasket(basket)
+}
+
 fetchProducts()
