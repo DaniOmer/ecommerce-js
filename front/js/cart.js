@@ -110,6 +110,18 @@ let injectHtmlCart = (data) => {
 
         secondDivSecondChildSecondChild.appendChild(p4)
     }
+
+    quantityCount()
+}
+
+// Calculer la quantité des produits
+let quantityCount = function (){
+    let basket = getBasket()
+    let totalQuantity = 0
+    for(product of basket){
+        totalQuantity += parseInt(product.qty, 10)
+    }
+    return totalQuantity
 }
 
 fetchProducts()
