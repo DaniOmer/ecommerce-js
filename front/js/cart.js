@@ -114,6 +114,7 @@ let injectHtmlCart = (data) => {
     quantityCount()
     setTotalQuantity(quantity)
     cartPrice(productFound, total)
+    listenModify(input, quantity, productFound, total)
 }
 
 // Calculer la quantité des produits
@@ -176,6 +177,19 @@ let removeProduct = function (id, color){
     const element = document.getElementById(id+color);
     element.remove();
     saveBasket(basket)
+}
+
+
+// Écouter le input pour modifier la quantité
+let listenModify = function(input, quantity, productFound, total){
+    let basket = getBasket()
+    input.addEventListener('change', function(){
+        let updateId = this.closest('.cart__item').dataset.id
+        let updateColor = this.closest('.cart__item').dataset.color
+        updateProduct(updateId, updateColor, this.value)
+        setTotalQuantity(quantity)
+        cartPrice(productFound, total)
+    })
 }
 
 fetchProducts()
